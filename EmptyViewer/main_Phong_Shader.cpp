@@ -46,16 +46,17 @@ void setupBuffers() {
 void render() {
     GLint curProg = 0;
     glGetIntegerv(GL_CURRENT_PROGRAM, &curProg);
-    glClearColor(0.2f, 0.2f, 0.3f, 1.0f);
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glUseProgram(shaderProgram);
 
     glm::mat4 translation = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0));
-    glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.02, 0.02, 0.02));
 
-    glm::mat4 model = translation * scale;
-    glm::mat4 view = glm::lookAt(glm::vec3(0, 0, -10), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
-    glm::mat4 proj = glm::perspective(glm::radians(45.0f), (float)Width / Height, 0.1f, 100.0f);
+    glm::mat4 model = glm::mat4(1.0f);
+    model = glm::translate(model, glm::vec3(0.0f, 0.0f, -2.0f));
+    model = glm::scale(model, glm::vec3(0.02f));  // ¶Ç´Â 0.05f
+    glm::mat4 view = glm::lookAt(glm::vec3(0.0f, 0.0f, 5.0f), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+    glm::mat4 proj = glm::perspective(glm::radians(45.0f), (float)Width / Height, 0.1f, 200.0f);
 
     glm::mat3 normalMatrix = glm::transpose(glm::inverse(glm::mat3(model)));
 
@@ -64,13 +65,13 @@ void render() {
     glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "uProjection"), 1, GL_FALSE, glm::value_ptr(proj));
     glUniformMatrix3fv(glGetUniformLocation(shaderProgram, "uNormalMatrix"), 1, GL_FALSE, glm::value_ptr(normalMatrix));
 
-    glUniform3f(glGetUniformLocation(shaderProgram, "uViewPos"), 0, 0, -10);
-    glUniform3f(glGetUniformLocation(shaderProgram, "uLightPos"), -32.0f, 100.0f, -100.0f);
+    glUniform3f(glGetUniformLocation(shaderProgram, "uViewPos"), 0.0f, 0.0f, 3.0f); 
+    glUniform3f(glGetUniformLocation(shaderProgram, "uLightPos"), -4.0f, 4.0f, -3.0f);
     glUniform3f(glGetUniformLocation(shaderProgram, "uLightColor"), 1.0f, 1.0f, 1.0f);
 
     glUniform3f(glGetUniformLocation(shaderProgram, "uKa"), 0.0f, 1.0f, 0.0f);
     glUniform3f(glGetUniformLocation(shaderProgram, "uKd"), 0.0f, 0.5f, 0.0f);
-    glUniform3f(glGetUniformLocation(shaderProgram, "uKs"), 0.8f, 0.8f, 0.8f);
+    glUniform3f(glGetUniformLocation(shaderProgram, "uKs"), 0.5f, 0.5f, 0.5f);
     glUniform1f(glGetUniformLocation(shaderProgram, "uShininess"), 32.0f);
 
     glBindVertexArray(VAO);

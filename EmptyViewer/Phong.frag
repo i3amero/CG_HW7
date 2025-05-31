@@ -32,5 +32,6 @@ void main()
     vec3 specular = uKs * spec * uLightColor;
 
     vec3 result = ambient + diffuse + specular;
+    result = pow(result, vec3(1.0 / 2.2));
     FragColor = vec4(clamp(result, 0.0, 1.0), 1.0);  // clamping to [0,1]
 }
