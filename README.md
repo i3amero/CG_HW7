@@ -86,26 +86,27 @@ These are used by main_Phong_Shader.cpp.
 <br>
 <br>
 🔷 3. Phong.vert – Vertex Shader
-#version 330 core
+<br><br>
+    #version 330 core
 
-layout(location = 0) in vec3 aPos;
-layout(location = 1) in vec3 aNormal;
+    layout(location = 0) in vec3 aPos;
+    layout(location = 1) in vec3 aNormal;
 
-uniform mat4 uModel;
-uniform mat4 uView;
-uniform mat4 uProjection;
-uniform mat3 uNormalMatrix;
+    uniform mat4 uModel;
+    uniform mat4 uView;
+    uniform mat4 uProjection;
+    uniform mat3 uNormalMatrix;
 
-out vec3 FragPos;
-out vec3 Normal;
+    out vec3 FragPos;
+    out vec3 Normal;
 
-void main()
-{
-    FragPos = vec3(uModel * vec4(aPos, 1.0));     // Transformed position
-    Normal = normalize(uNormalMatrix * aNormal); // Corrected normal
+    void main()
+    {
+        FragPos = vec3(uModel * vec4(aPos, 1.0));     // Transformed position
+        Normal = normalize(uNormalMatrix * aNormal); // Corrected normal
 
-    gl_Position = uProjection * uView * vec4(FragPos, 1.0); // Final position
-}
+        gl_Position = uProjection * uView * vec4(FragPos, 1.0); // Final position
+    }
 <br>
 <br>
 🔸 Purpose
@@ -116,39 +117,39 @@ Passes world-space position (FragPos) and corrected normal to the fragment shade
 <br>
 <br>
 🔷 4. Phong.frag – Fragment Shader
-#version 330 core
+    #version 330 core
 
-in vec3 FragPos;
-in vec3 Normal;
+    in vec3 FragPos;
+    in vec3 Normal;
 
-uniform vec3 uViewPos;
-uniform vec3 uLightPos;
-uniform vec3 uLightColor;
+    uniform vec3 uViewPos;
+    uniform vec3 uLightPos;
+    uniform vec3 uLightColor;
 
-uniform vec3 uKa, uKd, uKs;
-uniform float uShininess;
+    uniform vec3 uKa, uKd, uKs;
+    uniform float uShininess;
 
-out vec4 FragColor;
+    out vec4 FragColor;
 
-void main()
-{
-    vec3 norm = normalize(Normal);
-    vec3 lightDir = normalize(uLightPos - FragPos);
-    vec3 viewDir  = normalize(uViewPos - FragPos);
+    void main()
+    {
+        vec3 norm = normalize(Normal);
+        vec3 lightDir = normalize(uLightPos - FragPos);
+        vec3 viewDir  = normalize(uViewPos - FragPos);
 
-    vec3 ambient = uKa * uLightColor;
+        vec3 ambient = uKa * uLightColor;
 
-    float diff = max(dot(norm, lightDir), 0.0);
-    vec3 diffuse = uKd * diff * uLightColor;
+        float diff = max(dot(norm, lightDir), 0.0);
+        vec3 diffuse = uKd * diff * uLightColor;
 
-    vec3 reflectDir = reflect(-lightDir, norm);
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), uShininess);
-    vec3 specular = uKs * spec * uLightColor;
+        vec3 reflectDir = reflect(-lightDir, norm);
+        float spec = pow(max(dot(viewDir, reflectDir), 0.0), uShininess);
+        vec3 specular = uKs * spec * uLightColor;
 
-    vec3 result = ambient + diffuse + specular;
-    result = pow(result, vec3(1.0 / 2.2));
-    FragColor = vec4(clamp(result, 0.0, 1.0), 1.0);
-}
+        vec3 result = ambient + diffuse + specular;
+        result = pow(result, vec3(1.0 / 2.2));
+        FragColor = vec4(clamp(result, 0.0, 1.0), 1.0);
+    }
 <br>
 <br>
 🔸 Purpose
