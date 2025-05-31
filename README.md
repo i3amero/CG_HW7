@@ -146,6 +146,7 @@ void main()
     vec3 specular = uKs * spec * uLightColor;
 
     vec3 result = ambient + diffuse + specular;
+    result = pow(result, vec3(1.0 / 2.2));
     FragColor = vec4(clamp(result, 0.0, 1.0), 1.0);
 }
 <br>
@@ -200,5 +201,5 @@ The scene reacts correctly to light direction, intensity, and viewer position.
 All buffers and shaders are modularized and structured for reuse.
 
 
+![image](https://github.com/user-attachments/assets/b7748d7c-a368-4a8a-9c90-9256e6c3952e)
 
-![image](https://github.com/user-attachments/assets/9362dacb-c122-4630-ab6f-4b98b459a10c)
