@@ -171,12 +171,14 @@ Produces a smooth, shiny rendering of the sphere with visible highlights and sha
 <br>
 <br>
 🔷 5. shader_util.{h,cpp} – Shader Management (Utility)
-#pragma once
-#include <glad/glad.h>
+    <br>
+    #pragma once
+    <br>
+    #include <glad/glad.h>
 
-GLuint CreateShaderProgram(const char* vertexPath, const char* fragmentPath);
-shader_util.cpp (simplified structure)
-Reads shader source code from file.
+    GLuint CreateShaderProgram(const char* vertexPath, const char* fragmentPath);
+    shader_util.cpp (simplified structure)
+    Reads shader source code from file.
 
 Compiles vertex and fragment shaders.
 
